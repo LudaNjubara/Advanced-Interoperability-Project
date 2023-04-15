@@ -1,7 +1,9 @@
 package com.app.healthcare.healthcare_app.service;
 
 import com.app.healthcare.healthcare_app.model.Provider;
+import com.app.healthcare.healthcare_app.repository.FacilityRepository;
 import com.app.healthcare.healthcare_app.repository.ProviderRepository;
+import com.app.healthcare.healthcare_app.request.ProviderRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,10 +13,12 @@ import java.util.Optional;
 @Service
 public class ProviderServiceImpl implements ProviderService {
     private final ProviderRepository providerRepository;
+    private final FacilityRepository facilityRepository;
 
     @Autowired
-    public ProviderServiceImpl(ProviderRepository providerRepository) {
+    public ProviderServiceImpl(ProviderRepository providerRepository, FacilityRepository facilityRepository) {
         this.providerRepository = providerRepository;
+        this.facilityRepository = facilityRepository;
     }
 
     @Override
@@ -33,8 +37,10 @@ public class ProviderServiceImpl implements ProviderService {
     }
 
     @Override
-    public Provider createProvider(Provider provider) {
-        return providerRepository.save(provider);
+    public Provider createProvider(ProviderRequest providerReq) {
+        Provider newProvider = new Provider(providerReq);
+        newProvider.setFacility(facilityRepository.findById(providerReq.getFacilityId()).get());
+        return providerRepository.save(newProvider);
     }
 
     @Override

@@ -5,7 +5,6 @@ import com.app.healthcare.healthcare_app.service.AppointmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.jms.core.JmsTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,12 +14,11 @@ import java.util.List;
 public class AppointmentController {
 
     private final AppointmentService appointmentService;
-    private final JmsTemplate jmsTemplate;
+    //private final JmsTemplate jmsTemplate;
 
     @Autowired
-    public AppointmentController(AppointmentService appointmentService, JmsTemplate jmsTemplate) {
+    public AppointmentController(AppointmentService appointmentService) {
         this.appointmentService = appointmentService;
-        this.jmsTemplate = jmsTemplate;
     }
 
     @GetMapping
@@ -38,7 +36,7 @@ public class AppointmentController {
     @PostMapping
     public ResponseEntity<Appointment> createAppointment(@RequestBody Appointment appointment) {
         Appointment createdAppointment = appointmentService.createAppointment(appointment);
-        jmsTemplate.convertAndSend("appointmentQueue", "Created appointment with ID: " + createdAppointment.getId());
+        //jmsTemplate.convertAndSend("appointmentQueue", "Created appointment with ID: " + createdAppointment.getId());
         return ResponseEntity.status(HttpStatus.CREATED).body(createdAppointment);
     }
 
@@ -51,7 +49,7 @@ public class AppointmentController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteAppointment(@PathVariable Long id) {
         appointmentService.deleteAppointment(id);
-         jmsTemplate.convertAndSend("appointmentQueue", "Deleted appointment with ID: " + id);
+         //jmsTemplate.convertAndSend("appointmentQueue", "Deleted appointment with ID: " + id);
         return ResponseEntity.noContent().build();
     }
 }

@@ -1,9 +1,12 @@
 package com.app.healthcare.healthcare_app.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Entity
 @Table(name = "facility")
@@ -16,17 +19,22 @@ public class Facility {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "name")
     private String name;
 
-    @Column(name = "address")
     private String address;
 
-    @Column(name = "email")
     private String email;
 
-    @Column(name = "image_url")
     private String imageUrl;
+
+    @OneToMany(mappedBy = "facility", fetch = FetchType.LAZY)
+    @JsonIgnore
+    private List<Provider> providers;
+
+    @OneToMany(mappedBy = "facility", fetch = FetchType.LAZY)
+    @JsonIgnore
+    private List<Patient> patients;
+
 
     public Facility(String name, String address, String email) {
         this.name = name;
