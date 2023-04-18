@@ -39,8 +39,14 @@ public class ProviderServiceImpl implements ProviderService {
     @Override
     public Provider createProvider(ProviderRequest providerReq) {
         Provider newProvider = new Provider(providerReq);
-        newProvider.setFacility(facilityRepository.findById(providerReq.getFacilityId()).get());
-        return providerRepository.save(newProvider);
+        boolean isFacilityPresent = facilityRepository.findById(providerReq.getFacilityId()).isPresent();
+
+        if (isFacilityPresent) {
+            newProvider.setFacility(facilityRepository.findById(providerReq.getFacilityId()).get());
+            return providerRepository.save(newProvider);
+        }
+
+        throw new RuntimeException("Facility not found with id: " + providerReq.getFacilityId());
     }
 
     @Override
