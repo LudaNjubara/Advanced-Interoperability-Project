@@ -7,6 +7,10 @@ import javax.validation.constraints.Pattern;
 
 @Data
 public class ProviderRequest {
+
+    @NotBlank(message = "Facility ID cannot be blank")
+    private Long facilityId;
+
     @NotBlank(message = "First name cannot be blank")
     @Pattern(regexp = "^[a-zA-Z]{2,}$", message = "First name must contain only letters and be at least 2 characters long")
     private String firstName;
@@ -32,8 +36,5 @@ public class ProviderRequest {
 
     @NotBlank(message = "Image URL cannot be blank")
     private String imageUrl;
-
-    @NotBlank(message = "Facility ID cannot be blank")
-    private Long facilityId;
 
 }

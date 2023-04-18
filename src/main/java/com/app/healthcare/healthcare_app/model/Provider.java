@@ -1,10 +1,13 @@
 package com.app.healthcare.healthcare_app.model;
 
 import com.app.healthcare.healthcare_app.request.ProviderRequest;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Entity
 @AllArgsConstructor
@@ -16,9 +19,17 @@ public class Provider {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "facility_id")
     private Facility facility;
+
+    @OneToMany(mappedBy = "provider", fetch = FetchType.LAZY)
+    @JsonIgnore
+    private List<Patient> patients;
+
+    @OneToMany(mappedBy = "provider", fetch = FetchType.LAZY)
+    @JsonIgnore
+    private List<Appointment> appointments;
 
     private String firstName;
 
