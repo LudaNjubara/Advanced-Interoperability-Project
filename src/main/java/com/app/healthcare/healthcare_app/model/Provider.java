@@ -1,6 +1,7 @@
 package com.app.healthcare.healthcare_app.model;
 
-import com.app.healthcare.healthcare_app.request.ProviderRequest;
+import com.app.healthcare.healthcare_app.request.ProviderPostRequest;
+import com.app.healthcare.healthcare_app.request.ProviderPutRequest;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -45,7 +46,18 @@ public class Provider {
 
     private String imageUrl;
 
-    public Provider(ProviderRequest providerRequest) {
+    public Provider(ProviderPostRequest providerRequest) {
+        this.firstName = providerRequest.getFirstName();
+        this.lastName = providerRequest.getLastName();
+        this.address = providerRequest.getAddress();
+        this.phoneNumber = providerRequest.getPhoneNumber();
+        this.email = providerRequest.getEmail();
+        this.oib = providerRequest.getOib();
+        this.imageUrl = providerRequest.getImageUrl();
+    }
+
+    public Provider(ProviderPutRequest providerRequest) {
+        this.facility = providerRequest.getFacility();
         this.firstName = providerRequest.getFirstName();
         this.lastName = providerRequest.getLastName();
         this.address = providerRequest.getAddress();

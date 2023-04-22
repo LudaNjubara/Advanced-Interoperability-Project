@@ -1,15 +1,17 @@
 package com.app.healthcare.healthcare_app.request;
 
+import com.app.healthcare.healthcare_app.model.Facility;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
 @Data
-public class ProviderRequest {
+public class ProviderPutRequest {
 
-    @NotBlank(message = "Facility ID cannot be blank")
-    private Long facilityId;
+    @NotNull(message = "Facility cannot be null")
+    private Facility facility;
 
     @NotBlank(message = "First name cannot be blank")
     @Pattern(regexp = "^[a-zA-Z]{2,}$", message = "First name must contain only letters and be at least 2 characters long")

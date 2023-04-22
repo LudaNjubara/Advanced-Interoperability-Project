@@ -3,7 +3,7 @@ package com.app.healthcare.healthcare_app.service;
 import com.app.healthcare.healthcare_app.model.Provider;
 import com.app.healthcare.healthcare_app.repository.FacilityRepository;
 import com.app.healthcare.healthcare_app.repository.ProviderRepository;
-import com.app.healthcare.healthcare_app.request.ProviderRequest;
+import com.app.healthcare.healthcare_app.request.ProviderPostRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -37,7 +37,7 @@ public class ProviderServiceImpl implements ProviderService {
     }
 
     @Override
-    public Provider createProvider(ProviderRequest providerReq) {
+    public Provider createProvider(ProviderPostRequest providerReq) {
         Provider newProvider = new Provider(providerReq);
         boolean isFacilityPresent = facilityRepository.findById(providerReq.getFacilityId()).isPresent();
 
@@ -51,6 +51,7 @@ public class ProviderServiceImpl implements ProviderService {
 
     @Override
     public Provider updateProvider(Long id, Provider provider) {
+        System.out.println("Provider: " + provider);
         Optional<Provider> optionalProvider = providerRepository.findById(id);
         if (optionalProvider.isPresent()) {
             Provider providerToUpdate = optionalProvider.get();
