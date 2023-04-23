@@ -1,6 +1,7 @@
 package com.app.healthcare.healthcare_app.service;
 
 import com.app.healthcare.healthcare_app.model.Appointment;
+import com.app.healthcare.healthcare_app.model.Patient;
 import com.app.healthcare.healthcare_app.repository.AppointmentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,6 +22,11 @@ public class AppointmentServiceImpl implements AppointmentService {
     @Override
     public List<Appointment> getAllAppointments() {
         return appointmentRepository.findAll();
+    }
+
+    @Override
+    public List<Patient> getAllAppointmentsByProviderId(Long providerId) {
+        return appointmentRepository.getAllAppointmentsByProviderId(providerId);
     }
 
     @Override

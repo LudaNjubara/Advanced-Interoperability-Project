@@ -1,10 +1,9 @@
 package com.app.healthcare.healthcare_app.controller;
 
 import com.app.healthcare.healthcare_app.model.Appointment;
+import com.app.healthcare.healthcare_app.model.Patient;
 import com.app.healthcare.healthcare_app.service.AppointmentService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,35 +21,34 @@ public class AppointmentController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Appointment>> getAllAppointments() {
-        List<Appointment> appointments = appointmentService.getAllAppointments();
-        return ResponseEntity.ok(appointments);
+    public List<Appointment> getAllAppointments() {
+        return appointmentService.getAllAppointments();
     }
 
+    @GetMapping(params = "providerId")
+    public List<Patient> getAllAppointmentsByProviderId(@RequestParam Long providerId) {
+        return appointmentService.getAllAppointmentsByProviderId(providerId);
+    }
     @GetMapping("/{id}")
-    public ResponseEntity<Appointment> getAppointmentById(@PathVariable Long id) {
-        Appointment appointment = appointmentService.getAppointmentById(id);
-        return ResponseEntity.ok(appointment);
+    public Appointment getAppointmentById(@PathVariable Long id) {
+        return appointmentService.getAppointmentById(id);
     }
 
     @PostMapping
-    public ResponseEntity<Appointment> createAppointment(@RequestBody Appointment appointment) {
-        Appointment createdAppointment = appointmentService.createAppointment(appointment);
+    public Appointment createAppointment(@RequestBody Appointment appointment) {
         //jmsTemplate.convertAndSend("appointmentQueue", "Created appointment with ID: " + createdAppointment.getId());
-        return ResponseEntity.status(HttpStatus.CREATED).body(createdAppointment);
+        return appointmentService.createAppointment(appointment);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Appointment> updateAppointment(@PathVariable Long id, @RequestBody Appointment appointment) {
-        Appointment updatedAppointment = appointmentService.updateAppointment(id, appointment);
-        return ResponseEntity.ok(updatedAppointment);
+    public Appointment updateAppointment(@PathVariable Long id, @RequestBody Appointment appointment) {
+        return appointmentService.updateAppointment(id, appointment);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteAppointment(@PathVariable Long id) {
+    public void deleteAppointment(@PathVariable Long id) {
         appointmentService.deleteAppointment(id);
-         //jmsTemplate.convertAndSend("appointmentQueue", "Deleted appointment with ID: " + id);
-        return ResponseEntity.noContent().build();
+        //jmsTemplate.convertAndSend("appointmentQueue", "Deleted appointment with ID: " + id);
     }
 }
 
