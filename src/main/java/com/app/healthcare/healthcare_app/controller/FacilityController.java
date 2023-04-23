@@ -2,6 +2,7 @@ package com.app.healthcare.healthcare_app.controller;
 
 import com.app.healthcare.healthcare_app.model.Facility;
 import com.app.healthcare.healthcare_app.service.FacilityService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,10 +12,12 @@ import java.util.List;
 @RestController
 public class FacilityController {
     private final FacilityService facilityService;
+    private final ModelMapper modelMapper;
 
     @Autowired
-    public FacilityController(FacilityService facilityService) {
+    public FacilityController(FacilityService facilityService, ModelMapper modelMapper) {
         this.facilityService = facilityService;
+        this.modelMapper = modelMapper;
     }
 
     @GetMapping
