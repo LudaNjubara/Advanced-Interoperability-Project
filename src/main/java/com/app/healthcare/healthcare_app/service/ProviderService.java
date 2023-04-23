@@ -15,4 +15,6 @@ public interface ProviderService {
     Provider updateProvider(Long id, Provider provider);
 
     void deleteProvider(Long id);
+
+    List<Provider> getAllProvidersByFacilityId(Long facilityId);
 }

@@ -26,6 +26,11 @@ public class ProviderController {
         return providerService.getAllProviders();
     }
 
+    @GetMapping(params = "facilityId")
+    public List<Provider> getAllProvidersByFacilityId(@RequestParam Long facilityId) {
+        return providerService.getAllProvidersByFacilityId(facilityId);
+    }
+
     @GetMapping("/{id}")
     public Provider getProviderById(@PathVariable Long id) {
         return providerService.getProviderById(id);

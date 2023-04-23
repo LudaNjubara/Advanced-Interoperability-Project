@@ -75,4 +75,9 @@ public class ProviderServiceImpl implements ProviderService {
     public void deleteProvider(Long id) {
         providerRepository.deleteById(id);
     }
+
+    @Override
+    public List<Provider> getAllProvidersByFacilityId(Long facilityId) {
+        return providerRepository.findAllByFacilityId(facilityId);
+    }
 }
