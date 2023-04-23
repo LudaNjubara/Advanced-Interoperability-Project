@@ -24,6 +24,16 @@ public class PatientServiceImpl implements PatientService {
     }
 
     @Override
+    public List<Patient> getAllPatientsByFacilityId(Long facilityId) {
+        return patientRepository.findByFacilityId(facilityId);
+    }
+
+    @Override
+    public List<Patient> getAllPatientsByProviderId(Long providerId) {
+        return patientRepository.findByProviderId(providerId);
+    }
+
+    @Override
     public Patient getPatientById(Long id) {
         Optional<Patient> optionalPatient = patientRepository.findById(id);
         if (optionalPatient.isPresent()) {
@@ -64,5 +74,4 @@ public class PatientServiceImpl implements PatientService {
     public void deletePatient(Long id) {
         patientRepository.deleteById(id);
     }
-
 }

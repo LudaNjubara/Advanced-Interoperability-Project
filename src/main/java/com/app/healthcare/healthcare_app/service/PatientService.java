@@ -7,6 +7,10 @@ import java.util.List;
 public interface PatientService {
     List<Patient> getAllPatients();
 
+    List<Patient> getAllPatientsByFacilityId(Long facilityId);
+
+    List<Patient> getAllPatientsByProviderId(Long providerId);
+
     Patient getPatientById(Long id);
 
     Patient createPatient(Patient patient);
