@@ -1,11 +1,13 @@
 package com.app.healthcare.healthcare_app.controller;
 
 import com.app.healthcare.healthcare_app.model.Appointment;
-import com.app.healthcare.healthcare_app.model.Patient;
+import com.app.healthcare.healthcare_app.request.AppointmentPostRequest;
+import com.app.healthcare.healthcare_app.request.AppointmentPutRequest;
 import com.app.healthcare.healthcare_app.service.AppointmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -26,23 +28,29 @@ public class AppointmentController {
     }
 
     @GetMapping(params = "providerId")
-    public List<Patient> getAllAppointmentsByProviderId(@RequestParam Long providerId) {
+    public List<Appointment> getAllAppointmentsByProviderId(@RequestParam Long providerId) {
         return appointmentService.getAllAppointmentsByProviderId(providerId);
     }
+
+    @GetMapping(params = "patientId")
+    public List<Appointment> getAllAppointmentsByPatientId(@RequestParam Long patientId) {
+        return appointmentService.getAllAppointmentsByPatientId(patientId);
+    }
+
     @GetMapping("/{id}")
     public Appointment getAppointmentById(@PathVariable Long id) {
         return appointmentService.getAppointmentById(id);
     }
 
     @PostMapping
-    public Appointment createAppointment(@RequestBody Appointment appointment) {
+    public Appointment createAppointment(@Valid @RequestBody AppointmentPostRequest appointmentReq) {
         //jmsTemplate.convertAndSend("appointmentQueue", "Created appointment with ID: " + createdAppointment.getId());
-        return appointmentService.createAppointment(appointment);
+        return appointmentService.createAppointment(appointmentReq);
     }
 
     @PutMapping("/{id}")
-    public Appointment updateAppointment(@PathVariable Long id, @RequestBody Appointment appointment) {
-        return appointmentService.updateAppointment(id, appointment);
+    public Appointment updateAppointment(@PathVariable Long id, @RequestBody @Valid AppointmentPutRequest appointmentReq) {
+        return appointmentService.updateAppointment(id, appointmentReq);
     }
 
     @DeleteMapping("/{id}")

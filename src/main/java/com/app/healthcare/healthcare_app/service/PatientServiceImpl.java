@@ -1,7 +1,11 @@
 package com.app.healthcare.healthcare_app.service;
 
 import com.app.healthcare.healthcare_app.model.Patient;
+import com.app.healthcare.healthcare_app.repository.FacilityRepository;
 import com.app.healthcare.healthcare_app.repository.PatientRepository;
+import com.app.healthcare.healthcare_app.repository.ProviderRepository;
+import com.app.healthcare.healthcare_app.request.PatientPostRequest;
+import com.app.healthcare.healthcare_app.request.PatientPutRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,10 +16,14 @@ import java.util.Optional;
 public class PatientServiceImpl implements PatientService {
 
     private final PatientRepository patientRepository;
+    private final FacilityRepository facilityRepository;
+    private final ProviderRepository providerRepository;
 
     @Autowired
-    public PatientServiceImpl(PatientRepository patientRepository) {
+    public PatientServiceImpl(PatientRepository patientRepository, FacilityRepository facilityRepository, ProviderRepository providerRepository) {
         this.patientRepository = patientRepository;
+        this.facilityRepository = facilityRepository;
+        this.providerRepository = providerRepository;
     }
 
     @Override
@@ -44,26 +52,36 @@ public class PatientServiceImpl implements PatientService {
     }
 
     @Override
-    public Patient createPatient(Patient patient) {
-        return patientRepository.save(patient);
+    public Patient createPatient(PatientPostRequest patientReq) {
+        Patient newPatient = new Patient(patientReq);
+        boolean isFacilityPresent = facilityRepository.findById(patientReq.getFacilityId()).isPresent();
+        boolean isProviderPresent = providerRepository.findById(patientReq.getProviderId()).isPresent();
+
+        if (isFacilityPresent && isProviderPresent) {
+            newPatient.setFacility(facilityRepository.findById(patientReq.getFacilityId()).get());
+            newPatient.setProvider(providerRepository.findById(patientReq.getProviderId()).get());
+            return patientRepository.save(newPatient);
+        }
+
+        throw new RuntimeException("Facility or Provider not found with id: " + patientReq.getFacilityId() + " or " + patientReq.getProviderId());
     }
 
     @Override
-    public Patient updatePatient(Long id, Patient patient) {
+    public Patient updatePatient(Long id, PatientPutRequest patientReq) {
         Optional<Patient> optionalPatient = patientRepository.findById(id);
         if (optionalPatient.isPresent()) {
             Patient patientToUpdate = optionalPatient.get();
 
-            patientToUpdate.setFirstName(patient.getFirstName());
-            patientToUpdate.setLastName(patient.getLastName());
-            patientToUpdate.setDateOfBirth(patient.getDateOfBirth());
-            patientToUpdate.setAddress(patient.getAddress());
-            patientToUpdate.setPhoneNumber(patient.getPhoneNumber());
-            patientToUpdate.setFacility(patient.getFacility());
-            patientToUpdate.setOib(patient.getOib());
-            patientToUpdate.setImageUrl(patient.getImageUrl());
+            patientToUpdate.setFirstName(patientReq.getFirstName());
+            patientToUpdate.setLastName(patientReq.getLastName());
+            patientToUpdate.setDateOfBirth(patientReq.getDateOfBirth());
+            patientToUpdate.setAddress(patientReq.getAddress());
+            patientToUpdate.setPhoneNumber(patientReq.getPhoneNumber());
+            patientToUpdate.setFacility(patientReq.getFacility());
+            patientToUpdate.setOib(patientReq.getOib());
+            patientToUpdate.setImageUrl(patientReq.getImageUrl());
+            patientToUpdate.setProvider(patientReq.getProvider());
 
-            patient.setId(id);
             return patientRepository.save(patientToUpdate);
         } else {
             throw new RuntimeException("Patient not found with id: " + id);
@@ -72,6 +90,7 @@ public class PatientServiceImpl implements PatientService {
 
     @Override
     public void deletePatient(Long id) {
+        System.out.println("PatientServiceImpl: deletePatient with id = " + id);
         patientRepository.deleteById(id);
     }
 }

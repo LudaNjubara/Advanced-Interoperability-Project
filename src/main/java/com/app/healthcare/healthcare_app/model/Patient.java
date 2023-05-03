@@ -1,5 +1,6 @@
 package com.app.healthcare.healthcare_app.model;
 
+import com.app.healthcare.healthcare_app.request.PatientPostRequest;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -9,7 +10,6 @@ import lombok.NoArgsConstructor;
 import java.util.List;
 
 @Entity
-@Table(name = "patient")
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
@@ -22,15 +22,15 @@ public class Patient {
 
     private String lastName;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "facility_id")
     private Facility facility;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "provider_id")
     private Provider provider;
 
-    @OneToMany(mappedBy = "patient", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "patient", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JsonIgnore
     private List<Appointment> appointments;
 
@@ -44,13 +44,13 @@ public class Patient {
 
     private String imageUrl;
 
-
-    public Patient(String firstName, String lastName, String address, String phoneNumber, String dateOfBirth, String oib) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.address = address;
-        this.phoneNumber = phoneNumber;
-        this.dateOfBirth = dateOfBirth;
-        this.oib = oib;
+      public Patient(PatientPostRequest patientRequest) {
+        this.firstName = patientRequest.getFirstName();
+        this.lastName = patientRequest.getLastName();
+        this.address = patientRequest.getAddress();
+        this.phoneNumber = patientRequest.getPhoneNumber();
+        this.dateOfBirth = patientRequest.getDateOfBirth();
+        this.oib = patientRequest.getOib();
+        this.imageUrl = patientRequest.getImageUrl();
     }
 }

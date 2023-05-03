@@ -1,6 +1,8 @@
 package com.app.healthcare.healthcare_app.service;
 
 import com.app.healthcare.healthcare_app.model.Facility;
+import com.app.healthcare.healthcare_app.request.FacilityPostRequest;
+import com.app.healthcare.healthcare_app.request.FacilityPutRequest;
 
 import java.util.List;
 
@@ -9,9 +11,9 @@ public interface FacilityService {
 
     Facility getFacilityById(Long id);
 
-    Facility createFacility(Facility facility);
+    Facility createFacility(FacilityPostRequest facilityReq);
 
-    Facility updateFacility(Long id, Facility facility);
+    Facility updateFacility(Long id, FacilityPutRequest facilityReq);
 
     void deleteFacility(Long id);
 }

@@ -2,6 +2,8 @@ package com.app.healthcare.healthcare_app.service;
 
 import com.app.healthcare.healthcare_app.model.Facility;
 import com.app.healthcare.healthcare_app.repository.FacilityRepository;
+import com.app.healthcare.healthcare_app.request.FacilityPostRequest;
+import com.app.healthcare.healthcare_app.request.FacilityPutRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -34,20 +36,21 @@ public class FacilityServiceImpl implements FacilityService {
     }
 
     @Override
-    public Facility createFacility(Facility facility) {
+    public Facility createFacility(FacilityPostRequest facilityReq) {
+        Facility facility = new Facility(facilityReq);
         return facilityRepository.save(facility);
     }
 
     @Override
-    public Facility updateFacility(Long id, Facility facility) {
+    public Facility updateFacility(Long id, FacilityPutRequest facilityReq) {
         Optional<Facility> optionalFacility = facilityRepository.findById(id);
         if (optionalFacility.isPresent()) {
             Facility facilityToUpdate = optionalFacility.get();
 
-            facilityToUpdate.setName(facility.getName());
-            facilityToUpdate.setAddress(facility.getAddress());
-            facilityToUpdate.setEmail(facility.getEmail());
-            facilityToUpdate.setImageUrl(facility.getImageUrl());
+            facilityToUpdate.setName(facilityReq.getName());
+            facilityToUpdate.setAddress(facilityReq.getAddress());
+            facilityToUpdate.setEmail(facilityReq.getEmail());
+            facilityToUpdate.setImageUrl(facilityReq.getImageUrl());
 
             return facilityRepository.save(facilityToUpdate);
         } else {

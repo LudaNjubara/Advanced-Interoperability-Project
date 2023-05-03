@@ -1,10 +1,13 @@
 package com.app.healthcare.healthcare_app.controller;
 
 import com.app.healthcare.healthcare_app.model.Patient;
+import com.app.healthcare.healthcare_app.request.PatientPostRequest;
+import com.app.healthcare.healthcare_app.request.PatientPutRequest;
 import com.app.healthcare.healthcare_app.service.PatientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RequestMapping("/api/patients")
@@ -38,17 +41,18 @@ public class PatientController {
     }
 
     @PostMapping
-    public Patient createPatient(@RequestBody Patient patient) {
-        return patientService.createPatient(patient);
+    public Patient createPatient(@Valid @RequestBody PatientPostRequest patientReq) {
+        return patientService.createPatient(patientReq);
     }
 
     @PutMapping("/{id}")
-    public Patient updatePatient(@PathVariable Long id, @RequestBody Patient patient) {
-        return patientService.updatePatient(id, patient);
+    public Patient updatePatient(@PathVariable Long id, @RequestBody @Valid PatientPutRequest patientReq) {
+        return patientService.updatePatient(id, patientReq);
     }
 
     @DeleteMapping("/{id}")
     public void deletePatient(@PathVariable Long id) {
+        System.out.println("Controller: deletePatient with id = " + id);
         patientService.deletePatient(id);
     }
 }

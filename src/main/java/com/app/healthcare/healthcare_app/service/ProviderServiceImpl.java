@@ -4,6 +4,7 @@ import com.app.healthcare.healthcare_app.model.Provider;
 import com.app.healthcare.healthcare_app.repository.FacilityRepository;
 import com.app.healthcare.healthcare_app.repository.ProviderRepository;
 import com.app.healthcare.healthcare_app.request.ProviderPostRequest;
+import com.app.healthcare.healthcare_app.request.ProviderPutRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -36,6 +37,11 @@ public class ProviderServiceImpl implements ProviderService {
         }
     }
 
+     @Override
+    public List<Provider> getAllProvidersByFacilityId(Long facilityId) {
+        return providerRepository.findAllByFacilityId(facilityId);
+    }
+
     @Override
     public Provider createProvider(ProviderPostRequest providerReq) {
         Provider newProvider = new Provider(providerReq);
@@ -50,20 +56,20 @@ public class ProviderServiceImpl implements ProviderService {
     }
 
     @Override
-    public Provider updateProvider(Long id, Provider provider) {
-        System.out.println("Provider: " + provider);
+    public Provider updateProvider(Long id, ProviderPutRequest providerReq) {
+        System.out.println("ProviderReq: " + providerReq);
         Optional<Provider> optionalProvider = providerRepository.findById(id);
         if (optionalProvider.isPresent()) {
             Provider providerToUpdate = optionalProvider.get();
 
-            providerToUpdate.setFirstName(provider.getFirstName());
-            providerToUpdate.setLastName(provider.getLastName());
-            providerToUpdate.setAddress(provider.getAddress());
-            providerToUpdate.setPhoneNumber(provider.getPhoneNumber());
-            providerToUpdate.setFacility(provider.getFacility());
-            providerToUpdate.setOib(provider.getOib());
-            providerToUpdate.setEmail(provider.getEmail());
-            providerToUpdate.setImageUrl(provider.getImageUrl());
+            providerToUpdate.setFirstName(providerReq.getFirstName());
+            providerToUpdate.setLastName(providerReq.getLastName());
+            providerToUpdate.setAddress(providerReq.getAddress());
+            providerToUpdate.setPhoneNumber(providerReq.getPhoneNumber());
+            providerToUpdate.setFacility(providerReq.getFacility());
+            providerToUpdate.setOib(providerReq.getOib());
+            providerToUpdate.setEmail(providerReq.getEmail());
+            providerToUpdate.setImageUrl(providerReq.getImageUrl());
 
             return providerRepository.save(providerToUpdate);
         } else {
@@ -76,8 +82,5 @@ public class ProviderServiceImpl implements ProviderService {
         providerRepository.deleteById(id);
     }
 
-    @Override
-    public List<Provider> getAllProvidersByFacilityId(Long facilityId) {
-        return providerRepository.findAllByFacilityId(facilityId);
-    }
+
 }

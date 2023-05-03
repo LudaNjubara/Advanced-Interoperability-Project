@@ -3,12 +3,13 @@ package com.app.healthcare.healthcare_app.request;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
 @Data
 public class ProviderPostRequest {
 
-    @NotBlank(message = "Facility ID cannot be blank")
+    @NotNull(message = "Facility id cannot be null")
     private Long facilityId;
 
     @NotBlank(message = "First name cannot be blank")

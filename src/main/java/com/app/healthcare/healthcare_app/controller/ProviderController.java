@@ -44,7 +44,7 @@ public class ProviderController {
     @PutMapping("/{id}")
     public Provider updateProvider(@PathVariable Long id, @RequestBody @Valid ProviderPutRequest providerReq) {
         System.out.println("Provider in controller: " + providerReq);
-        return providerService.updateProvider(id, new Provider(providerReq));
+        return providerService.updateProvider(id, providerReq);
     }
 
     @DeleteMapping("/{id}")

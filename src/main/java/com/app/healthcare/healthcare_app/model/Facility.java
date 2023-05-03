@@ -1,5 +1,6 @@
 package com.app.healthcare.healthcare_app.model;
 
+import com.app.healthcare.healthcare_app.request.FacilityPostRequest;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -9,7 +10,6 @@ import lombok.NoArgsConstructor;
 import java.util.List;
 
 @Entity
-@Table(name = "facility")
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
@@ -27,11 +27,11 @@ public class Facility {
 
     private String imageUrl;
 
-    @OneToMany(mappedBy = "facility", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "facility", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JsonIgnore
     private List<Provider> providers;
 
-    @OneToMany(mappedBy = "facility", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "facility", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JsonIgnore
     private List<Patient> patients;
 
@@ -40,5 +40,12 @@ public class Facility {
         this.name = name;
         this.address = address;
         this.email = email;
+    }
+
+    public Facility(FacilityPostRequest facilityReq) {
+        this.name = facilityReq.getName();
+        this.address = facilityReq.getAddress();
+        this.email = facilityReq.getEmail();
+        this.imageUrl = facilityReq.getImageUrl();
     }
 }
