@@ -8,6 +8,7 @@ import com.app.healthcare.healthcare_app.request.PatientPostRequest;
 import com.app.healthcare.healthcare_app.request.PatientPutRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -89,8 +90,8 @@ public class PatientServiceImpl implements PatientService {
     }
 
     @Override
+    @Transactional
     public void deletePatient(Long id) {
-        System.out.println("PatientServiceImpl: deletePatient with id = " + id);
         patientRepository.deleteById(id);
     }
 }

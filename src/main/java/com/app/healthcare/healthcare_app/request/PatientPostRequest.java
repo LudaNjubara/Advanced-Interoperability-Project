@@ -10,11 +10,9 @@ import javax.validation.constraints.Pattern;
 public class PatientPostRequest {
 
 
-    @NotBlank(message = "Facility ID cannot be blank")
     @NotNull(message = "Facility ID cannot be null")
     private Long facilityId;
 
-    @NotBlank(message = "Provider ID cannot be blank")
     @NotNull(message = "Provider ID cannot be null")
     private Long providerId;
 

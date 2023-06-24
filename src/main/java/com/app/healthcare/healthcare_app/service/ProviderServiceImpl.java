@@ -7,6 +7,7 @@ import com.app.healthcare.healthcare_app.request.ProviderPostRequest;
 import com.app.healthcare.healthcare_app.request.ProviderPutRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -78,6 +79,7 @@ public class ProviderServiceImpl implements ProviderService {
     }
 
     @Override
+    @Transactional
     public void deleteProvider(Long id) {
         providerRepository.deleteById(id);
     }

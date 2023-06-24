@@ -1,11 +1,11 @@
 package com.app.healthcare.healthcare_app.model;
 
 import com.app.healthcare.healthcare_app.request.AppointmentPostRequest;
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.*;
 import java.time.LocalDate;
 
 @Entity

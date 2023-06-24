@@ -12,7 +12,7 @@ public class AppointmentPostRequest {
     private String title;
     @NotBlank(message = "Description cannot be blank")
     private String description;
-    @NotBlank(message = "Appointment date cannot be blank")
+    @NotNull(message = "Appointment date cannot be null")
     private LocalDate appointmentDate;
     @NotNull(message = "Provider id cannot be null")
     private Long providerId;

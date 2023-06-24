@@ -6,6 +6,7 @@ import com.app.healthcare.healthcare_app.request.FacilityPostRequest;
 import com.app.healthcare.healthcare_app.request.FacilityPutRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -59,6 +60,7 @@ public class FacilityServiceImpl implements FacilityService {
     }
 
     @Override
+    @Transactional
     public void deleteFacility(Long id) {
         facilityRepository.deleteById(id);
     }

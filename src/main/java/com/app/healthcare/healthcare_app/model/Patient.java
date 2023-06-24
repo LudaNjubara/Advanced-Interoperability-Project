@@ -2,11 +2,11 @@ package com.app.healthcare.healthcare_app.model;
 
 import com.app.healthcare.healthcare_app.request.PatientPostRequest;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.*;
 import java.util.List;
 
 @Entity
@@ -30,7 +30,7 @@ public class Patient {
     @JoinColumn(name = "provider_id")
     private Provider provider;
 
-    @OneToMany(mappedBy = "patient", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "patient", fetch = FetchType.EAGER, orphanRemoval = true)
     @JsonIgnore
     private List<Appointment> appointments;
 

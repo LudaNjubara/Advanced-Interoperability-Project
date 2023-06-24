@@ -3,11 +3,11 @@ package com.app.healthcare.healthcare_app.model;
 import com.app.healthcare.healthcare_app.request.ProviderPostRequest;
 import com.app.healthcare.healthcare_app.request.ProviderPutRequest;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.*;
 import java.util.List;
 
 @Entity
@@ -24,11 +24,11 @@ public class Provider {
     @JoinColumn(name = "facility_id")
     private Facility facility;
 
-    @OneToMany(mappedBy = "provider", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "provider", fetch = FetchType.EAGER, orphanRemoval = true)
     @JsonIgnore
     private List<Patient> patients;
 
-    @OneToMany(mappedBy = "provider", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "provider", fetch = FetchType.EAGER, orphanRemoval = true)
     @JsonIgnore
     private List<Appointment> appointments;
 
